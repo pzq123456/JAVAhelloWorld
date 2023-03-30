@@ -1,5 +1,5 @@
 # JAVA 作业二实验报告
-> 潘志清 地信20-2 
+> null 
 
 > Report time: 验证运行时间
 >```java
