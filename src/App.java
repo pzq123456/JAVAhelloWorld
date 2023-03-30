@@ -4,9 +4,14 @@ public class App {
     public static void main(String[] args) {
         mainFunction mainFunction = new mainFunction();
         mainFunction.reportTime();
-        // mainFunction.Fun1();
-        // mainFunction.Fun2();
+        mainFunction.reportProblemNumber(1);
+        mainFunction.Fun1();
+        mainFunction.reportProblemNumber(2);
+        mainFunction.Fun2();
+        mainFunction.reportProblemNumber(3);
         mainFunction.Fun3();
+        // print END
+        System.out.println("--END--");
     }
 }
 /**
@@ -86,8 +91,13 @@ class mainFunction{
 
         }
 
-    }
 
+
+    }
+    // report problem number
+    public void reportProblemNumber( int problemNumber){
+        System.out.println("Problem " + problemNumber + ":");
+    }
     /**
      * 第二题
      */
