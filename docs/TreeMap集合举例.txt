@@ -1,0 +1,128 @@
+import java.util.*;
+
+class Student {
+
+	//①定义三个私有成员变量及其get、set方法	
+		private int sno;	
+		private int sclass;
+		private int score;
+		
+	//②编写有三个参数的构造方法以完成成员变量的初始化。	
+				public Student(int xh,int bj,int cj)//构造方法
+				{
+					sno=xh;
+					sclass=bj;
+					score=cj;	
+				}	
+	 //③编写成员变量的get、set方法。
+		public int getSno() { return sno; }
+		public void setSno(int sno) {this.sno = sno;}
+		
+		public int getSclass() {return sclass;}
+		public void setSclass(int sclass) {this.sclass = sclass;}
+
+		public int getScore() {return score;}
+		public void setScore(int score) {this.score = score;}
+	
+
+	//④重写toString()方法，返回一个学生的各成员变量的信息，每个成员变量占一个制表位。
+		public String toString() {
+	      	return this.sno+"\t"+this.sclass+"\t"+this.score;
+	      }	
+		
+//	//⑤重写equals()方法用于规定学号相同的两个学生相等。（键是自定义类时需重写该方法，键如果是Integer、String等类则不需要）
+//		public boolean equals(Object obj) {
+//			if (this == obj)
+//				return true;
+//			if (obj == null)
+//				return false;
+//			if (getClass() != obj.getClass())
+//				return false;
+//			Student other = (Student) obj;
+//			if (sno != other.sno)
+//				return false;
+//			return true;
+//		}
+//				
+	//⑥重写Comparable接口中的compareTo()方法，（因为TreeSet集合的键是有序的）。（键是自定义类时需重写该方法，键如果是Integer、String等类则不需要）
+//		public int compareTo(Student otherStudent){  //重写了接口Comparable中的compareTo方法，再按学号升序.
+//			return this.sno-otherStudent.sno;			
+//		  }
+	}
+
+
+public class TestStudent {
+
+	static void pr(TreeMap<Integer,Student> sm) { //定义遍历Map集合的静态方法（需定义为静态方法才能在main方法中调用）。
+//    	for(Object obj : sm.keySet()) { //（通过键查找值遍历，效率较低）
+//	        Student value = (Student)sm.get(obj);
+//	        System.out.println(value);
+//	    }
+		System.out.println("学号"+"\t"+"班级"+"\t"+"成绩");
+		for (Student v: sm.values()) {
+	        System.out.println(v);
+	    }
+
+    }
+	public static void main(String[] args) {		
+						
+		//①创建TreeMap集合，以学号为键，学号对应的学生对象为值存入集合中。
+		//如果使用TreeMap集合，因为键不能重复还需能排序，因此键所属的类需能判断是否相等且能比较大小，如果键所属的类是自定义类则需在类中重写equals()方法和compareTo()方法。
+		TreeMap<Integer,Student> s=new TreeMap<Integer,Student>(); 
+		for(int i=0;i<20;i++){
+			Student stu=new Student(i+1,(int)(Math.random()*3+1),(int)(Math.random()*11+90));
+			s.put(stu.getSno(),stu);
+		}		
+		pr(s);		
+		
+		//②输入一个学生的信息添加到集合中，然后输出添加后的学生信息。（如果输入了已有的学号，元素不会新增，新值（学生对象）会覆盖旧值（学生对象））
+		System.out.println("\n输入要添加的学生的学号、班级和成绩：");
+		Scanner in=new Scanner(System.in);
+		int xh=in.nextInt(); int bj=in.nextInt(); int cj=in.nextInt();
+		s.put(xh,new Student(xh,bj,cj));
+		
+		System.out.println("添加后：");
+		pr(s);
+		
+		//③输入一个学生的学号，然后删除该生的信息并输出删除后的学生集合信息。
+		System.out.println("\n输入要删除的学生的学号");
+		s.remove(in.nextInt());  //remove()方法删除键为参数的元素
+		System.out.println("删除后：");		
+		pr(s);
+
+		//④修改指定学号的学生的成绩，然后输出改后的学生集合信息。
+		System.out.println("\n输入要修改成绩的学号及成绩:");
+		s.get(in.nextInt()).setScore(in.nextInt());
+		
+		System.out.println("修改后：");		
+		pr(s);		
+		
+		//⑤输入一个学生的学号，在集合中查找该学生是否存在，存在则输出该生的各属性信息，不存在则输出“查无此人！”
+		System.out.println("请输入学号：");
+		xh=in.nextInt();
+		
+		Student xs=s.get(xh); //get()方法获取参数键（学号）对应的值即学生对象。（通过键（学号）找值（学生对象））
+		if(xs==null) {
+			System.out.println("该生不存在");		
+		}else {
+			System.out.println(xs);
+		}
+				
+		//⑥输入一个成绩，在集合中找出考了该成绩的所有学生信息，没找到则输出“没人考这个成绩”
+		System.out.println("请输入成绩：");
+		cj=in.nextInt();		
+		boolean flag=false;
+		
+		for(Student k:s.values()) { //values()方法返回值的集合，即所有学生对象的集合					
+			if(k.getScore()==(cj)) { 
+				flag=true;
+				System.out.println(k);
+			}
+		}
+		
+		if(flag==false) {
+			System.out.println("没人考了这个成绩");
+		}			
+		
+	}
+}

@@ -1,0 +1,121 @@
+import java.util.*;
+
+class Student implements Comparable<Student>{
+
+	//①定义三个私有成员变量及其get、set方法	
+		private int sno;	
+		private int sclass;
+		private int score;
+		
+	
+
+	//②编写有三个参数的构造方法以完成成员变量的初始化。	
+		public Student(int xh,int bj,int cj)//构造方法
+		{
+			sno=xh;
+			sclass=bj;
+			score=cj;	
+		}
+	//③编写成员变量的get、set方法。
+		public int getSno() { return sno; }
+		public void setSno(int sno) {this.sno = sno;}
+		
+		public int getSclass() {return sclass;}
+		public void setSclass(int sclass) {this.sclass = sclass;}
+
+		public int getScore() {return score;}
+		public void setScore(int score) {this.score = score;}
+	
+
+	//④重写toString()方法，返回一个学生的各成员变量的信息，每个成员变量占一个制表位。
+		public String toString() {
+	      	return this.sno+"\t"+this.sclass+"\t"+this.score;
+	      }	
+
+	//⑤重写equals()方法用于规定学号相同的两个学生相等。（因Set集合不能放相同的元素，因此要给出两个学生对象不同的标准）
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			Student other = (Student) obj;
+			if (sno != other.sno)
+				return false;
+			return true;
+		}
+		
+	//⑥重写Comparable接口中的compareTo()方法，（因为TreeSet集合是有序的）。
+		public int compareTo(Student otherStudent){  //重写了接口Comparable中的compareTo方法，再按学号升序.
+			return this.sno-otherStudent.sno;			
+		  }
+	}
+
+public class TestStudent {
+
+	public static void main(String[] args) {
+		//①创建TreeSet集合，向里面添加20个Student类对象，其中学号依次为1-20，班级1-3随机产生，成绩90-100随机产生。
+		TreeSet<Student> ts=new TreeSet<Student>();
+		//for(int i=21;i>1;i--){    
+		//ts.add(new Student(i-1,(int)(Math.random()*3+1),(int)(Math.random()*11+90)));
+	    //}
+		for(int i=0;i<20;i++){    
+			ts.add(new Student(i+1,(int)(Math.random()*3+1),(int)(Math.random()*11+90)));
+		}
+		
+		//②使用遍历输出学生集合信息，其中每个学生信息调用toString()方法输出。
+		System.out.println("使用增强for循环遍历集合：");
+		System.out.println("学号"+"\t"+"班级"+"\t"+"成绩");
+		for(Student k:ts) {
+			System.out.println(k);   
+		}
+		
+		System.out.println("使用迭代器遍历集合：");
+		System.out.println("学号"+"\t"+"班级"+"\t"+"成绩");
+		Iterator<Student> stu=ts.iterator();
+		while (stu.hasNext()) { 
+		        System.out.println(stu.next());
+		}
+	
+		//③输入一个学生的信息添加到集合中，然后使用增强for循环输出添加后的学生集合信息。
+		System.out.println("\n输入要添加的学生的学号、班级和成绩：");
+		Scanner in=new Scanner(System.in);
+		ts.add(new Student(in.nextInt(),in.nextInt(),in.nextInt()));
+		
+		System.out.println("添加后：");
+		System.out.println("学号"+"\t"+"班级"+"\t"+"成绩");
+		for(Student k:ts) {
+			System.out.println(k);
+		}
+		
+		//④输入一个学生的学号，使用迭代器遍历删除该生的信息，然后输出删除后的学生集合信息。
+		System.out.println("\n输入要删除的学生的学号");
+		int xh=in.nextInt();
+		Iterator<Student> it=ts.iterator(); //得到集合ls的迭代器it  
+		  while (it.hasNext()) {//调用迭代器的hasNext方法，判断是否有下一个元素//		      		  
+			  if (it.next().getSno()==xh) {it.remove();};  //使用迭代器删除
+		  } 
+		  
+//		  for(Student k:ts) { //增强for循环遍历删除，Student类已重写了equals()方法
+//			  if(k.getSno()==xh) {
+//				  ts.remove(new Student(k.getSno(),k.getSclass(),k.getScore()));
+//				  break;  //注意该句不能少，否则会出现异常
+//			  }			 
+//		  }
+		  
+		System.out.println("删除后：");
+		System.out.println("学号"+"\t"+"班级"+"\t"+"成绩");  
+    	for(Student k:ts) {
+			System.out.println(k);
+		}
+    	
+    	//⑤修改指定学号的学生的成绩，然后输出改后的学生集合信息。	
+    	
+    	//⑥输入一个学生的学号，在集合中查找该学生是否存在，存在则输出该生的各属性信息，不存在则输出“查无此人！”
+    	
+    	//⑦输入一个成绩，在集合中找出考了该成绩的所有学生信息，没找到则输出“没人考这个成绩”
+	}
+		
+			
+}
