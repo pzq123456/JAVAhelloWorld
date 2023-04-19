@@ -193,18 +193,57 @@ public abstract class Animal{
 -	增强for循环
 
 6.	接口
--	接口的概念和特点
+-	接口的概念和特点: 接口是一种功能上的抽象，是一种规范，是一种标准
 -	接口中定义了多个类共同的行为规范，接口中定义的抽象方法是与外部交流的通道
 -	接口可以建立类与类之间的协议
 -	可以变通的实现多继承，即一个接口可以继承多个，一个类可以实现多个接口
+
 -	接口的定义
 -	接口可以继承多个父接口
 -	接口中的方法都是抽象方法
 -	接口中可以包含基本数据类型的数据成员，但它们都是默认为static和final
+```java
+// 接口的定义
+public interface Comparable{
+    public int compareTo(Object obj);
+}
+```
 -	接口的使用
 -	类实现接口
 -	类中重写接口中的抽象方法
 -	如何重写Comparable接口中的compareTo()方法来按自己的标准比较两个对象的大小，从而可以通过调用Arrays类中sort()方法对该类数组进行排序。
+```java
+public class Student implements Comparable{
+    // 实现Comparable接口
+    private String name;
+    private int age;
+    public Student(String name, int age){
+        this.name = name;
+        this.age = age;
+    }
+    public String getName(){
+        return name;
+    }
+    public int getAge(){
+        return age;
+    }
+    // 重写Comparable接口中的compareTo()方法
+    @Override
+    public int compareTo(Object obj){
+        if(obj instanceof Student){
+            Student s = (Student)obj;
+            if(this.age > s.age){
+                return 1;
+            }else if(this.age < s.age){
+                return -1;
+            }else{
+                return 0;
+            }
+        }
+        return 0;
+    }
+}
+```
 -	接口与抽象类的相似处和区别
 
 ## 第4章 常用类
